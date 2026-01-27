@@ -14,7 +14,7 @@ public class Hotel {
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
         private String name;
-        private String status; // ACTIVE/INACTIVE
+        private String status; // ACTIVE/INACTIVE (use enums)
         // getters & setters
     }
 

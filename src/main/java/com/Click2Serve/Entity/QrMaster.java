@@ -15,7 +15,7 @@ public class QrMaster {
         @ManyToOne
         @JoinColumn(name = "hotel_id")
         private Hotel hotel;
-        // getters & setters
+
     }
 
-}
+
