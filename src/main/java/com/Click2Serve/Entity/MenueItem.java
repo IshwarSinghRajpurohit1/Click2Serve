@@ -1,7 +1,9 @@
 package com.Click2Serve.Entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
+@Data
 @Entity
 public class MenueItem
 {

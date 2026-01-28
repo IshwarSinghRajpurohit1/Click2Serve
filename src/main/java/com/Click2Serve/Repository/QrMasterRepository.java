@@ -1,4 +1,10 @@
 package com.Click2Serve.Repository;
 
-public class QrMasterRepository {
+import com.Click2Serve.Entity.QrMaster;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface QrMasterRepository extends JpaRepository<QrMaster,Long>
+{
+
+
 }

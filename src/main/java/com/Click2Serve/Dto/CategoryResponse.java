@@ -1,4 +1,6 @@
 package com.Click2Serve.Dto;
 
-public class CategoryResponse {
+public class CategoryResponse
+{
+
 }
