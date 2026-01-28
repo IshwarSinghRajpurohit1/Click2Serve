@@ -1,6 +1,4 @@
 package com.Click2Serve.Controller;
-
-
 import com.Click2Serve.service.QrService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +19,8 @@ public class QrController {
         return qrCodeService.generateQRCode(text);
     }
     @GetMapping("/qr/save")
-    public String saveQR(@RequestParam String text) throws Exception {
+    public String saveQR(@RequestParam String text) throws Exception
+    {
         qrCodeService.saveQRCodeToFile(text);
         return "QR Code saved successfully";
     }
