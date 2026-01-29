@@ -10,7 +10,7 @@ public class Category {
         @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
         private String name;
-        private String status;
+        private Boolean Active ;
         @ManyToOne
         @JoinColumn(name = "hotel_id")
         private Hotel hotel;
