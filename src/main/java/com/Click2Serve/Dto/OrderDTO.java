@@ -1,5 +1,4 @@
 package com.Click2Serve.Dto;
-
 import lombok.Data;
 
 @Data

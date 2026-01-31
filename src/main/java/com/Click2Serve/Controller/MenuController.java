@@ -1,75 +1,88 @@
 package com.Click2Serve.Controller;
+
 import com.Click2Serve.Entity.Category;
 import com.Click2Serve.Entity.MenueItem;
 import com.Click2Serve.service.MenuService;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
-    @RestController
-    @RequestMapping("/menu")
+@RestController
+@RequestMapping("/menu")
+public class MenuController {
 
-    public class MenuController {
+    private final MenuService menuService;
 
-        // ❌ Galti: variable name inconsistent
-        // private final MenuService menueService;
-        // ✅ Fix:
-        private final MenuService menuService;
-
-        public MenuController(MenuService menuService) {
-            this.menuService = menuService;
-        }
-
-        // ❌ Galti: Fake category object create kar raha ho
-    /*
-    @GetMapping("/category/{categoryId}")
-    public List<MenueItem> getMenuByCategory(@PathVariable Long categoryId) {
-        Category category = new Category();
-        category.setId(categoryId);
-        return menuService.getMenuItemsByCategory(category);
-    }
-    */
-        // ✅ Fix: Fetch category from DB and separate customer/admin
-        @GetMapping("/customer/category/{categoryId}")
-        public List<MenueItem> getMenuForCustomer(@PathVariable Long categoryId) {
-            Category category = menuService.getCategoryById(categoryId);
-            return menuService.getMenuItemsForCustomer(category);
-        }
-
-        @GetMapping("/admin/category/{categoryId}")
-        public List<MenueItem> getMenuForAdmin(@PathVariable Long categoryId) {
-            Category category = menuService.getCategoryById(categoryId);
-            return menuService.getMenuItemsForAdmin(category);
-        }
-
-        // ❌ Galti: Only disable exists
-        // ✅ Fix: Add enable endpoint
-        @PutMapping("/disable/{menuItemId}")
-        public String disableMenuItem(@PathVariable Long menuItemId) {
-            menuService.disableMenuItem(menuItemId);
-            return "Menu item disabled successfully";
-        }
-
-        @PutMapping("/enable/{menuItemId}")
-        public String enableMenuItem(@PathVariable Long menuItemId) {
-            menuService.enableMenuItem(menuItemId);
-            return "Menu item enabled successfully";
-        }
-
-        // ✅ Add Category enable/disable endpoints
-        @PutMapping("/category/disable/{categoryId}")
-        public String disableCategory(@PathVariable Long categoryId) {
-            menuService.disableCategory(categoryId);
-            return "Category disabled successfully";
-        }
-
-        @PutMapping("/category/enable/{categoryId}")
-        public String enableCategory(@PathVariable Long categoryId) {
-            menuService.enableCategory(categoryId);
-            return "Category enabled successfully";
-        }
+    public MenuController(MenuService menuService) {
+        this.menuService = menuService;
     }
 
+    // ➕ Add menu item (category optional)
+    @PostMapping("/add")
+    public MenueItem addMenu(@RequestBody MenueItem item) {
+        // Agar category null hai to ignore
+        if (item.getCategory() != null && item.getCategory().getId() != null) {
+            Category category = menuService.getCategoryById(item.getCategory().getId());
+            item.setCategory(category);
+        } else {
+            item.setCategory(null);
+        }
 
+        // Hotel must be provided
+        if (item.getHotel() == null || item.getHotel().getId() == null) {
+            throw new RuntimeException("Hotel ID is required");
+        } else {
+            // Set hotel reference
+            item.setHotel(item.getHotel());
+        }
 
+        // Default active true
+        if (item.getActive() == null) {
+            item.setActive(true);
+        }
 
+        return menuService.addMenuItem(item);
+    }
 
+    // 👤 Customer: hotel + optional category
+    @GetMapping("/customer/{hotelId}")
+    public List<MenueItem> getMenuForCustomer(
+            @PathVariable Long hotelId,
+            @RequestParam(required = false) Long categoryId) {
+
+        Category category = null;
+        if (categoryId != null) {
+            category = menuService.getCategoryById(categoryId);
+        }
+
+        return menuService.getMenuItemsForCustomerByHotel(hotelId, category);
+    }
+
+    // 🔐 Admin: hotel + optional category
+    @GetMapping("/admin/{hotelId}")
+    public List<MenueItem> getMenuForAdmin(
+            @PathVariable Long hotelId,
+            @RequestParam(required = false) Long categoryId) {
+
+        Category category = null;
+        if (categoryId != null) {
+            category = menuService.getCategoryById(categoryId);
+        }
+
+        return menuService.getMenuItemsForAdminByHotel(hotelId, category);
+    }
+
+    // ❌ Disable menu item
+    @PutMapping("/disable/{id}")
+    public String disable(@PathVariable Long id) {
+        menuService.disableMenuItem(id);
+        return "Menu disabled";
+    }
+
+    // ✅ Enable menu item
+    @PutMapping("/enable/{id}")
+    public String enable(@PathVariable Long id) {
+        menuService.enableMenuItem(id);
+        return "Menu enabled";
+    }
+}

@@ -1,19 +1,37 @@
 package com.Click2Serve.Entity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Data;
 
-@Data
+import com.Click2Serve.Status.HotelStatus;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Hotel {
+
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
-        private String name;
-        private String status;
-    }
 
+        private String hotelName;
+        private String ownerName;
+        private String address;
+        private String phone;
+        private String email;
+
+        @Enumerated(EnumType.STRING)
+        private HotelStatus status;
+        private LocalDateTime createdAt;
+        private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
+    private List<MenueItem> menuItems;
+
+}
 
 

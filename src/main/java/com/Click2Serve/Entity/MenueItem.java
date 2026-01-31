@@ -5,8 +5,6 @@ import lombok.Data;
 @Entity
 public class MenueItem
 {
-
-
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
@@ -16,10 +14,12 @@ public class MenueItem
 
         private Boolean active;
         @ManyToOne
-        @JoinColumn(name = "category_id")
+        @JoinColumn(name = "category_id",nullable = true)
         private Category category;
 
+     @ManyToOne
+      @JoinColumn(name = "hotel_id",nullable = false)
+      private Hotel hotel;
+
+
 }
-
-
-

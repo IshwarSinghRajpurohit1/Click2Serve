@@ -11,7 +11,11 @@ public class Category {
         private Long id;
         private String name;
         private Boolean Active ;
-        @ManyToOne
+        private boolean enabled = true;
+
+
+
+    @ManyToOne
         @JoinColumn(name = "hotel_id")
         private Hotel hotel;
 

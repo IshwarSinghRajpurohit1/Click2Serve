@@ -1,7 +1,6 @@
 package com.Click2Serve.Entity;
 
 import jakarta.persistence.*;
-import jakarta.persistence.criteria.Order;
 
 import java.util.List;
 
