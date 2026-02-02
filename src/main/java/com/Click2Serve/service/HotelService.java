@@ -6,6 +6,7 @@ import com.Click2Serve.Repository.HotelRepository;
 import com.Click2Serve.Status.HotelStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,8 +17,10 @@ import java.util.stream.Collectors;
 public class HotelService {
 
     private final HotelRepository hotelRepository;
+    private final QrService qrService;
 
-    // CREATE
+    // CREATE HOTEL + AUTO QR
+    @Transactional
     public HotelDTO createHotel(HotelDTO dto) {
 
         Hotel hotel = Hotel.builder()
@@ -31,10 +34,15 @@ public class HotelService {
                 .updatedAt(LocalDateTime.now())
                 .build();
 
-        return mapToDTO(hotelRepository.save(hotel));
+        // Save hotel
+        Hotel savedHotel = hotelRepository.save(hotel);
+
+        // Auto-generate QR
+        qrService.generateQrForHotel(savedHotel);
+
+        return mapToDTO(savedHotel);
     }
 
-    // GET ALL
     public List<HotelDTO> getAllHotels() {
         return hotelRepository.findAll()
                 .stream()
@@ -42,14 +50,12 @@ public class HotelService {
                 .collect(Collectors.toList());
     }
 
-    // GET BY ID
     public HotelDTO getHotelById(Long id) {
         Hotel hotel = hotelRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Hotel not found"));
         return mapToDTO(hotel);
     }
 
-    // UPDATE
     public HotelDTO updateHotel(Long id, HotelDTO dto) {
         Hotel hotel = hotelRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Hotel not found"));
@@ -64,7 +70,6 @@ public class HotelService {
         return mapToDTO(hotelRepository.save(hotel));
     }
 
-    // CHANGE STATUS
     public void changeHotelStatus(Long id, HotelStatus status) {
         Hotel hotel = hotelRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Hotel not found"));
@@ -74,7 +79,6 @@ public class HotelService {
         hotelRepository.save(hotel);
     }
 
-    // DTO MAPPER
     private HotelDTO mapToDTO(Hotel hotel) {
         HotelDTO dto = new HotelDTO();
         dto.setId(hotel.getId());
@@ -87,4 +91,3 @@ public class HotelService {
         return dto;
     }
 }
-
