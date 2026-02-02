@@ -1,22 +1,28 @@
 package com.Click2Serve.Entity;
+
 import jakarta.persistence.*;
 import lombok.Data;
+import com.Click2Serve.Entity.Hotel;
 
-@Data
+
+
 @Entity
 @Table(name = "qr_master")
-public class QrMaster
-{
+@Data
+public class QrMaster {
+
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
+
         @Column(unique = true)
-        private String qrCode;
+        private String qrCode;   // actual URL
+
         private String status;
+
+        private String qrImagePath; // ✅ store image path
+
         @ManyToOne
         @JoinColumn(name = "hotel_id")
         private Hotel hotel;
-
 }
-
-
