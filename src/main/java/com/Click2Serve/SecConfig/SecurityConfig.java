@@ -13,10 +13,10 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf
-                        .ignoringRequestMatchers("/hotels/**", "/rooms/**")
+                        .ignoringRequestMatchers("/hotels/**", "/rooms/**","/categories/**", "/menu/**")
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/hotels/**", "/rooms/**").permitAll()
+                        .requestMatchers("/hotels/**", "/rooms/**","/categories/**", "/menu/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults());
