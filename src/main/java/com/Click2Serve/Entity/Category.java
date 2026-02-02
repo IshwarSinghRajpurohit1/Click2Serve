@@ -12,10 +12,7 @@ public class Category {
         private String name;
         private Boolean Active ;
         private boolean enabled = true;
-
-
-
-    @ManyToOne
+      @ManyToOne
         @JoinColumn(name = "hotel_id")
         private Hotel hotel;
 

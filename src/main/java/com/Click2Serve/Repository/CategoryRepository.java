@@ -15,4 +15,6 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     // 🔐 Admin//
     List<Category> findByHotel(Hotel hotel);
+
+    List<Category> findByHotel_Id(Long hotelId);
 }

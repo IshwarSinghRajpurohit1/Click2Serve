@@ -1,5 +1,7 @@
 package com.Click2Serve.Controller;
 
+import com.Click2Serve.Dto.CategoryMenuDTO;
+import com.Click2Serve.Dto.MenuResponseDTO;
 import com.Click2Serve.Entity.Category;
 import com.Click2Serve.Entity.MenueItem;
 import com.Click2Serve.service.MenuService;
@@ -17,10 +19,24 @@ public class MenuController {
         this.menuService = menuService;
     }
 
+    // Customer ko category-wise menu dikhane ke liye
+    @GetMapping("/customer/nested/{hotelId}")
+    public List<CategoryMenuDTO> getNestedMenu(@PathVariable Long hotelId) {
+        return menuService.getHotelMenuNested(hotelId);
+    }
+
+
+    // ➕ Add menu item (category optional)
     // ➕ Add menu item (category optional)
     @PostMapping("/add")
-    public MenueItem addMenu(@RequestBody MenueItem item) {
-        // Agar category null hai to ignore
+    public MenuResponseDTO addMenu(@RequestBody MenueItem item) {
+
+        // ✅ Hotel mandatory
+        if (item.getHotel() == null || item.getHotel().getId() == null) {
+            throw new RuntimeException("Hotel ID is required");
+        }
+
+        // ✅ Category optional
         if (item.getCategory() != null && item.getCategory().getId() != null) {
             Category category = menuService.getCategoryById(item.getCategory().getId());
             item.setCategory(category);
@@ -28,21 +44,15 @@ public class MenuController {
             item.setCategory(null);
         }
 
-        // Hotel must be provided
-        if (item.getHotel() == null || item.getHotel().getId() == null) {
-            throw new RuntimeException("Hotel ID is required");
-        } else {
-            // Set hotel reference
-            item.setHotel(item.getHotel());
-        }
-
-        // Default active true
+        // ✅ Default active true
         if (item.getActive() == null) {
             item.setActive(true);
         }
 
-        return menuService.addMenuItem(item);
+        return menuService.addMenuItem(item); // ✅ DTO return ho raha hai
     }
+
+
 
     // 👤 Customer: hotel + optional category
     @GetMapping("/customer/{hotelId}")
