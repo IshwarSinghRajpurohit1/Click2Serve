@@ -15,7 +15,7 @@ public class QrService {
 
     public QrMaster generateQrForHotel(Hotel hotel) {
 
-        // 1️⃣ QR me hotel-specific URL (future menu)
+
         String qrText = "http://localhost:8080/menu/" + hotel.getId();
 
         // 2️⃣ Generate QR image file

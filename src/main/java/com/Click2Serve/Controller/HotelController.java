@@ -15,25 +15,25 @@ public class HotelController {
 
     private final HotelService hotelService;
 
-    // CREATE HOTEL
+
     @PostMapping
     public HotelDTO createHotel(@RequestBody HotelDTO dto) {
         return hotelService.createHotel(dto);
     }
 
-    // GET ALL HOTELS
+
     @GetMapping
     public List<HotelDTO> getAllHotels() {
         return hotelService.getAllHotels();
     }
 
-    // GET HOTEL BY ID
+
     @GetMapping("/{id}")
     public HotelDTO getHotelById(@PathVariable Long id) {
         return hotelService.getHotelById(id);
     }
 
-    // UPDATE HOTEL
+
     @PutMapping("/{id}")
     public HotelDTO updateHotel(
             @PathVariable Long id,
@@ -41,7 +41,7 @@ public class HotelController {
         return hotelService.updateHotel(id, dto);
     }
 
-    // CHANGE STATUS
+
     @PatchMapping("/{id}/status")
     public String changeStatus(
             @PathVariable Long id,
