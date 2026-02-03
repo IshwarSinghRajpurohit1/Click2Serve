@@ -19,12 +19,12 @@ public class CategoryController
 
         @PostMapping("/add/{hotelId}")
         public Category addCategory(@PathVariable Long hotelId, @RequestBody Category category) {
-
+            // Hum sirf name nikal kar service ko denge
             return categoryService.createCategory(hotelId, category.getName());
         }
 
 
-        @GetMapping("/hotel/{hotelId}")
+        @GetMapping("/get/{hotelId}")
         public List<Category> getCategoriesByHotel(@PathVariable Long hotelId) {
             return categoryService.getByHotel(hotelId);
         }
