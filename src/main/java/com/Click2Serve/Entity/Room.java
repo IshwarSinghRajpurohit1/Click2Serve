@@ -26,6 +26,6 @@ public class Room {
     private Hotel hotel;
 
     @OneToMany(mappedBy = "room")
-    private List<Order> orders;
+    private List<Orders> orders;
 }
 

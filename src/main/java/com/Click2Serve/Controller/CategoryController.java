@@ -1,11 +1,9 @@
 package com.Click2Serve.Controller;
-
 import org.springframework.web.bind.annotation.PostMapping;
 import com.Click2Serve.Entity.Category;
 import com.Click2Serve.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 @RestController
 @RequestMapping("/categories")
@@ -15,13 +13,13 @@ public class CategoryController
 
 
         private final CategoryService categoryService;
-
-
         @PostMapping("/add/{hotelId}")
         public Category addCategory(@PathVariable Long hotelId, @RequestBody Category category) {
             // Hum sirf name nikal kar service ko denge
             return categoryService.createCategory(hotelId, category.getName());
         }
+
+
 
 
         @GetMapping("/get/{hotelId}")
