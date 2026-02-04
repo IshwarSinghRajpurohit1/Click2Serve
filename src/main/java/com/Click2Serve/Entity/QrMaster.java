@@ -16,11 +16,11 @@ public class QrMaster {
         private Long id;
 
         @Column(unique = true)
-        private String qrCode;   // actual URL
+        private String qrCode;
 
         private String status;
 
-        private String qrImagePath; // ✅ store image path
+        private String qrImagePath;
 
         @ManyToOne
         @JoinColumn(name = "hotel_id")

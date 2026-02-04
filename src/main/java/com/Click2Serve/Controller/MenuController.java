@@ -2,7 +2,7 @@ package com.Click2Serve.Controller;
 import com.Click2Serve.Dto.CategoryMenuDTO;
 import com.Click2Serve.Dto.MenuResponseDTO;
 import com.Click2Serve.Entity.Category;
-import com.Click2Serve.Entity.MenueItem;
+import com.Click2Serve.Entity.MenuItem;
 import com.Click2Serve.service.MenuService;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,9 +25,8 @@ public class MenuController {
     }
 
 
-
     @PostMapping("/add")
-    public MenuResponseDTO addMenu(@RequestBody MenueItem item) {
+    public MenuResponseDTO addMenu(@RequestBody MenuItem item) {
 
 
         if (item.getHotel() == null || item.getHotel().getId() == null) {
@@ -54,7 +53,7 @@ public class MenuController {
 
 
     @GetMapping("/customer/{hotelId}")
-    public List<MenueItem> getMenuForCustomer(
+    public List<MenuItem> getMenuForCustomer(
             @PathVariable Long hotelId,
             @RequestParam(required = false) Long categoryId) {
 
@@ -68,7 +67,7 @@ public class MenuController {
 
 
     @GetMapping("/admin/{hotelId}")
-    public List<MenueItem> getMenuForAdmin(
+    public List<MenuItem> getMenuForAdmin(
             @PathVariable Long hotelId,
             @RequestParam(required = false) Long categoryId) {
 

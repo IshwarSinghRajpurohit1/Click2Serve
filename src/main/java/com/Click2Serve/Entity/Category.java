@@ -13,11 +13,10 @@ public class Category {
         private String name;
         private Boolean Active ;
         private boolean enabled = true;
-        @JsonIgnore
 
-      @ManyToOne
+
+        @ManyToOne
         @JoinColumn(name = "hotel_id")
+        @JsonIgnore
         private Hotel hotel;
-
-
 }

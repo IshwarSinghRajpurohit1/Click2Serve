@@ -13,10 +13,24 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf
-                        .ignoringRequestMatchers("/hotels/**", "/rooms/**","/categories/**", "/menu/**")
+                        .ignoringRequestMatchers(
+                                "/hotels/**",
+                                "/rooms/**",
+                                "/categories/**",
+                                "/menu/**",
+                                "/orders/**",
+                                "/users/**"  // <-- CSRF ignore for these
+                        )
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/hotels/**", "/rooms/**","/categories/**", "/menu/**").permitAll()
+                        .requestMatchers(
+                                "/hotels/**",
+                                "/rooms/**",
+                                "/categories/**",
+                                "/menu/**",
+                                "/orders/**",
+                                "/users/**"  // <-- permitAll for testing
+                        ).permitAll()
                         .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults());
@@ -24,4 +38,3 @@ public class SecurityConfig {
         return http.build();
     }
 }
-

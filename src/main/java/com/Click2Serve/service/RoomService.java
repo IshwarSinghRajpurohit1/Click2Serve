@@ -18,7 +18,7 @@ public class RoomService {
     private final RoomRepository roomRepository;
     private final HotelRepository hotelRepository;
 
-    // CREATE ROOM
+
     public RoomDTO createRoom(RoomDTO dto) {
         Hotel hotel = hotelRepository.findById(dto.getHotelId())
                 .orElseThrow(() -> new RuntimeException("Hotel not found"));
@@ -32,7 +32,7 @@ public class RoomService {
         return mapToDTO(roomRepository.save(room));
     }
 
-    // GET ALL ROOMS
+
     public List<RoomDTO> getAllRooms() {
         return roomRepository.findAll()
                 .stream()
@@ -40,14 +40,14 @@ public class RoomService {
                 .collect(Collectors.toList());
     }
 
-    // GET ROOM BY ID
+
     public RoomDTO getRoomById(Long id) {
         Room room = roomRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Room not found"));
         return mapToDTO(room);
     }
 
-    // UPDATE ROOM
+
     public RoomDTO updateRoom(Long id, RoomDTO dto) {
         Room room = roomRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Room not found"));
@@ -64,7 +64,7 @@ public class RoomService {
         return mapToDTO(roomRepository.save(room));
     }
 
-    // DTO Mapper
+
     private RoomDTO mapToDTO(Room room) {
         RoomDTO dto = new RoomDTO();
         dto.setRoomNumber(room.getRoomNumber());

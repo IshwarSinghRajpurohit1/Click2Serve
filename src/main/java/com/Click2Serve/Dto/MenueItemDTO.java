@@ -10,8 +10,6 @@ public class MenueItemDTO
         private Double price;
         private Boolean active;
         private Long hotelId;
-
-
   }
 
 

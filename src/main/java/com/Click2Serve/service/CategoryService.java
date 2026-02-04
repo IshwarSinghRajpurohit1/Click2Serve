@@ -17,7 +17,7 @@ public class CategoryService
     private final CategoryRepository categoryRepository;
     private final HotelRepository hotelRepository;
 
-    // 1. Category Create Karne ka Logic
+
     public Category createCategory(Long hotelId, String name) {
         Hotel hotel = hotelRepository.findById(hotelId)
                 .orElseThrow(() -> new RuntimeException("Hotel not found with id: " + hotelId));
@@ -26,12 +26,12 @@ public class CategoryService
         category.setName(name);
         category.setHotel(hotel);
         category.setEnabled(true);
-        category.setActive(true); // Aapki entity mein dono fields hain toh dono set kar dete hain
+        category.setActive(true);
 
         return categoryRepository.save(category);
     }
 
-    // 2. Hotel ke hisaab se categories fetch karne ka logic (Jo error de raha tha)
+
     public List<Category> getByHotel(Long hotelId) {
         return categoryRepository.findByHotel_Id(hotelId);
     }

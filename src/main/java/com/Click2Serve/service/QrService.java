@@ -18,16 +18,16 @@ public class QrService {
 
         String qrText = "http://localhost:8080/menu/" + hotel.getId();
 
-        // 2️⃣ Generate QR image file
+
         String fileName = "qr_hotel_" + hotel.getId() + ".png";
         String imagePath = QRImageGenerator.generateQrImage(qrText, fileName);
 
-        // 3️⃣ Save QR info in DB
+
         QrMaster qr = new QrMaster();
         qr.setHotel(hotel);
         qr.setStatus("ACTIVE");
-        qr.setQrCode(qrText);  // ya UUID nahi, actual URL
-        // qr.setQrImagePath(imagePath); // agar column hai to uncomment karo
+        qr.setQrCode(qrText);
+
 
         return qrRepo.save(qr);
     }

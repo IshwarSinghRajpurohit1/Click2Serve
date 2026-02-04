@@ -2,8 +2,9 @@ package com.Click2Serve.Entity;
 import jakarta.persistence.*;
 import lombok.Data;
 @Data
+@Table(name = "menu_items")
 @Entity
-public class MenueItem
+public class MenuItem
 {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)

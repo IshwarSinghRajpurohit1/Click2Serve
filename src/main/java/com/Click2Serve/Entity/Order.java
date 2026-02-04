@@ -1,6 +1,7 @@
 package com.Click2Serve.Entity;
 
 import com.Click2Serve.Status.OrderStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,6 +25,7 @@ public class Order {
     private double totalAmount;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<OrderItem> items;
 
     @ManyToOne

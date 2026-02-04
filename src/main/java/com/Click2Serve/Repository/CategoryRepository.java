@@ -10,10 +10,10 @@ import java.util.List;
 
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
-    // 👤 Customer//
+
     List<Category> findByHotelAndEnabledTrue(Hotel hotel);
 
-    // 🔐 Admin//
+
     List<Category> findByHotel(Hotel hotel);
 
     List<Category> findByHotel_Id(Long hotelId);

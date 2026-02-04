@@ -19,7 +19,7 @@ public class HotelService {
     private final HotelRepository hotelRepository;
     private final QrService qrService;
 
-    // CREATE HOTEL + AUTO QR
+
     @Transactional
     public HotelDTO createHotel(HotelDTO dto) {
 
@@ -34,10 +34,10 @@ public class HotelService {
                 .updatedAt(LocalDateTime.now())
                 .build();
 
-        // Save hotel
+
         Hotel savedHotel = hotelRepository.save(hotel);
 
-        // Auto-generate QR
+
         qrService.generateQrForHotel(savedHotel);
 
         return mapToDTO(savedHotel);
