@@ -12,6 +12,12 @@ public class OrderResponseDTO {
     private double totalAmount;
     private OrderStatus status;
     private LocalDateTime orderTime;
+
+    private Long roomId;
+    private String roomNumber;
+    private Long userId;
+
+
     private List<OrderItemResponseDTO> items;
 }
 

@@ -118,6 +118,11 @@ public class OrderService {
         dto.setStatus(order.getStatus());
         dto.setOrderTime(order.getOrderTime());
 
+        dto.setRoomId(order.getRoom().getId());
+        dto.setRoomNumber(order.getRoom().getRoomNumber());
+        dto.setUserId(order.getUser().getId());
+
+
         List<OrderItemResponseDTO> items = order.getItems().stream().map(item -> {
             OrderItemResponseDTO i = new OrderItemResponseDTO();
             i.setItemId(item.getMenuItem().getId());
