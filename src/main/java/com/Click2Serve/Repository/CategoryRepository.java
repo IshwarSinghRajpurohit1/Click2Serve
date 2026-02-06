@@ -13,7 +13,6 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     List<Category> findByHotelAndEnabledTrue(Hotel hotel);
 
-
     List<Category> findByHotel(Hotel hotel);
 
     List<Category> findByHotel_Id(Long hotelId);
