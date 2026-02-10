@@ -3,9 +3,11 @@ package com.Click2Serve.Room.Controller;
 import com.Click2Serve.Room.DTO.RoomDTO;
 import com.Click2Serve.Room.Service.RoomService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/rooms")
@@ -15,7 +17,7 @@ public class RoomController {
     private final RoomService roomService;
 
     @PostMapping
-    public RoomDTO createRoom(@RequestBody RoomDTO dto) {
+    public ResponseEntity<Map<String, Object>> createRoom(@RequestBody RoomDTO dto) {
         return roomService.createRoom(dto);
     }
 
@@ -26,7 +28,7 @@ public class RoomController {
 
 
     @GetMapping("/{id}")
-    public RoomDTO getRoomById(@PathVariable Long id) {
+    public ResponseEntity<Map<String, Object>> getRoomById(@PathVariable Long id) {
         return roomService.getRoomById(id);
     }
 

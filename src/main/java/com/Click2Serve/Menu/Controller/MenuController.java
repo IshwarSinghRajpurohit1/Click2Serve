@@ -4,6 +4,7 @@ import com.Click2Serve.Menu.DTO.MenuResponseDTO;
 import com.Click2Serve.Category.Entity.Category;
 import com.Click2Serve.Menu.Entity.MenuItem;
 import com.Click2Serve.Menu.Service.MenuService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class MenuController {
 
 
     @PostMapping("/add")
-    public MenuResponseDTO addMenu(@RequestBody MenuItem item) {
+    public ResponseEntity<?> addMenu(@RequestBody MenuItem item) {
 
 
         if (item.getHotel() == null || item.getHotel().getId() == null) {

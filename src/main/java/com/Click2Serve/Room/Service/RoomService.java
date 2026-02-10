@@ -1,14 +1,17 @@
 package com.Click2Serve.Room.Service;
 
+import com.Click2Serve.Exception.ResponseClass;
 import com.Click2Serve.Room.DTO.RoomDTO;
 import com.Click2Serve.Hotel.Entity.Hotel;
 import com.Click2Serve.Room.Entity.Room;
 import com.Click2Serve.Hotel.Repository.HotelRepository;
 import com.Click2Serve.Room.Repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,7 +22,7 @@ public class RoomService {
     private final HotelRepository hotelRepository;
 
 
-    public RoomDTO createRoom(RoomDTO dto) {
+    public ResponseEntity<Map<String, Object>> createRoom(RoomDTO dto) {
         Hotel hotel = hotelRepository.findById(dto.getHotelId())
                 .orElseThrow(() -> new RuntimeException("Hotel not found"));
 
@@ -29,26 +32,31 @@ public class RoomService {
                 .hotel(hotel)
                 .build();
 
-        return mapToDTO(roomRepository.save(room));
+        RoomDTO dtos = mapToDTO(roomRepository.save(room));
+
+      return    ResponseClass.responseSuccess("room hasbeen created","room", dtos);
     }
 
 
     public List<RoomDTO> getAllRooms() {
-        return roomRepository.findAll()
+         List<RoomDTO> dtos = roomRepository.findAll()
                 .stream()
                 .map(this::mapToDTO)
                 .collect(Collectors.toList());
+        return (List<RoomDTO>) ResponseClass.responseSuccess("get all room","Room",dtos);
     }
 
 
-    public RoomDTO getRoomById(Long id) {
+    public ResponseEntity<Map<String, Object>> getRoomById(Long id) {
         Room room = roomRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Room not found"));
-        return mapToDTO(room);
+            RoomDTO room1   = mapToDTO(room);
+               return ResponseClass.responseSuccess("GOT ROOM","Room", room1);  
+                
     }
 
 
-    public RoomDTO updateRoom(Long id, RoomDTO dto) {
+    public ResponseEntity<Map<String, Object>> updateRoom(Long id, RoomDTO dto) {
         Room room = roomRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Room not found"));
 
@@ -61,7 +69,9 @@ public class RoomService {
             room.setHotel(hotel);
         }
 
-        return mapToDTO(roomRepository.save(room));
+         com.Click2Serve.Room.DTO.RoomDTO roomDTO  = mapToDTO(roomRepository.save(room));
+         return ResponseClass.responseSuccess("room updated","room",roomDTO);
+                  
     }
 
 

@@ -4,9 +4,11 @@ import com.Click2Serve.Hotel.DTO.HotelDTO;
 import com.Click2Serve.Status.HotelStatus;
 import com.Click2Serve.Hotel.Service.HotelService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/hotels")
@@ -17,7 +19,7 @@ public class HotelController {
 
 
     @PostMapping
-    public HotelDTO createHotel(@RequestBody HotelDTO dto) {
+    public ResponseEntity<Map<String, Object>> createHotel(@RequestBody HotelDTO dto) {
         return hotelService.createHotel(dto);
     }
 
@@ -29,13 +31,13 @@ public class HotelController {
 
 
     @GetMapping("/{id}")
-    public HotelDTO getHotelById(@PathVariable Long id) {
+    public ResponseEntity<Map<String, Object>> getHotelById(@PathVariable Long id) {
         return hotelService.getHotelById(id);
     }
 
 
     @PutMapping("/{id}")
-    public HotelDTO updateHotel(
+    public ResponseEntity<Map<String, Object>> updateHotel(
             @PathVariable Long id,
             @RequestBody HotelDTO dto) {
         return hotelService.updateHotel(id, dto);

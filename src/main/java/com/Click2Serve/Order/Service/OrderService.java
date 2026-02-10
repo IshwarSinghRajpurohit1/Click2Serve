@@ -1,5 +1,6 @@
 package com.Click2Serve.Order.Service;
 
+import com.Click2Serve.Exception.ResponseClass;
 import com.Click2Serve.Order.DTO.OrderCreateDTO;
 import com.Click2Serve.Order.DTO.OrderItemRequestDTO;
 import com.Click2Serve.Order.DTO.OrderItemResponseDTO;
@@ -16,12 +17,14 @@ import com.Click2Serve.Status.OrderStatus;
 import com.Click2Serve.Users.Entity.User;
 import com.Click2Serve.Users.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,7 +39,7 @@ public class OrderService {
 
 
     @Transactional
-    public Order placeOrder(OrderCreateDTO dto) {
+    public ResponseEntity<Map<String, Object>> placeOrder(OrderCreateDTO dto) {
 
         Room room = roomRepository.findById(dto.getRoomId())
                 .orElseThrow(() -> new RuntimeException("Room not found"));
@@ -79,7 +82,9 @@ public class OrderService {
         order.setItems(orderItems);
 
         orderItemRepository.saveAll(orderItems);
-        return orderRepository.save(order);
+        Order order1 = orderRepository.save(order);
+        return ResponseClass.responseSuccess("order placed successfully","order",order1);
+
     }
 
 
@@ -94,27 +99,31 @@ public class OrderService {
         }
 
         order.setStatus(OrderStatus.CONFIRMED);
-        orderRepository.save(order);
+             Order order1 =  orderRepository.save(order);
+              ResponseClass.responseSuccess("order have been done","Order",order1);
     }
 
 
     @Transactional(readOnly = true)
-    public OrderResponseDTO getOrderById(Long orderId) {
+    public ResponseEntity<Map<String, Object>> getOrderById(Long orderId) {
 
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
 
-        return mapToResponse(order);
+         OrderResponseDTO order1 = mapToResponse(order);
+       return       ResponseClass.responseSuccess("order id get","order",order1);
+
     }
 
 
     @Transactional(readOnly = true)
     public List<OrderResponseDTO> getOrdersByRoom(Long roomId) {
 
-        return orderRepository.findByRoomId(roomId)
+       OrderResponseDTO dtos = (OrderResponseDTO) orderRepository.findByRoomId(roomId)
                 .stream()
                 .map(this::mapToResponse)
                 .collect(Collectors.toList());
+       return (List<OrderResponseDTO>) ResponseClass.responseSuccess("orger get","order",dtos);
     }
 
 

@@ -2,6 +2,7 @@ package com.Click2Serve.Menu.Service;
 
 import com.Click2Serve.Category.DTO.CategoryMenuDTO;
 import com.Click2Serve.Category.Entity.Category;
+import com.Click2Serve.Exception.ResponseClass;
 import com.Click2Serve.Hotel.Entity.Hotel;
 import com.Click2Serve.Menu.Entity.MenuItem;
 import com.Click2Serve.Hotel.DTO.HotelSummaryDTO;
@@ -11,11 +12,13 @@ import com.Click2Serve.Menu.DTO.MenuResponseDTO;
 import com.Click2Serve.Menu.DTO.MenueItemDTO;
 import com.Click2Serve.Menu.Repository.MenuItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
 
 @Service
 public class MenuService {
@@ -32,7 +35,8 @@ public class MenuService {
         this.categoryRepository = categoryRepository;
     }
 
-    public List<CategoryMenuDTO> getHotelMenuNested(Long hotelId) {
+    public List<CategoryMenuDTO> getHotelMenuNested(Long hotelId)
+    {
 
         List<MenuItem> allItems = menuItemRepository.findByHotel_IdAndActiveTrue(hotelId);
 
@@ -43,7 +47,7 @@ public class MenuService {
                 ));
 
 
-        return groupedMap.entrySet().stream().map(entry -> {
+        List<CategoryMenuDTO> responseList = groupedMap.entrySet().stream().map(entry -> {
             CategoryMenuDTO categoryDTO = new CategoryMenuDTO();
 
 
@@ -62,9 +66,12 @@ public class MenuService {
                 return itemDto;
             }).collect(Collectors.toList());
 
-            categoryDTO.setItems(itemDTOs);
+             categoryDTO.setItems(itemDTOs);
             return categoryDTO;
         }).collect(Collectors.toList());
+
+        return (List<CategoryMenuDTO>) ResponseClass.responseSuccess("","", responseList);
+
     }
 
 
@@ -74,10 +81,13 @@ public class MenuService {
         if (category != null) {
 
             return menuItemRepository.findByHotel_IdAndCategoryAndActiveTrue(hotelId, category);
-        } else {
+        }
+        else {
 
             return menuItemRepository.findByHotel_IdAndActiveTrue(hotelId);
         }
+
+
     }
 
 
@@ -91,7 +101,7 @@ public class MenuService {
         }
     }
 
-    public MenuResponseDTO addMenuItem(MenuItem menuItem) {
+    public ResponseEntity<?> addMenuItem(MenuItem menuItem) {
 
 
         if (menuItem.getHotel() == null || menuItem.getHotel().getId() == null) {
@@ -101,7 +111,7 @@ public class MenuService {
         Hotel hotel = hotelRepository.findById(menuItem.getHotel().getId())
                 .orElseThrow(() -> new RuntimeException("Hotel not found"));
 
-        menuItem.setHotel(hotel);
+               menuItem.setHotel(hotel);
 
 
 
@@ -120,7 +130,10 @@ public class MenuService {
 
         MenuItem saved = menuItemRepository.save(menuItem);
 
-        return buildMenuResponse(saved);
+        MenuResponseDTO  dto= buildMenuResponse(saved);
+         return ResponseClass.responseSuccess("menu has been created ","menuItem",dto);
+
+
     }
 
 
