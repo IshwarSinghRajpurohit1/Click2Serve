@@ -19,7 +19,9 @@ public class SecurityConfig {
                                 "/categories/**",
                                 "/menu/**",
                                 "/orders/**",
-                                "/users/**"  // <-- CSRF ignore for these
+                                "/users/**" , // <-- CSRF ignore for these
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**"
                         )
                 )
                 .authorizeHttpRequests(auth -> auth
@@ -29,7 +31,11 @@ public class SecurityConfig {
                                 "/categories/**",
                                 "/menu/**",
                                 "/orders/**",
-                                "/users/**"  // <-- permitAll for testing
+                                "/users/**" , // <-- permitAll for testing
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html"
+
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
