@@ -21,6 +21,7 @@ public class MenuController {
 
     @GetMapping("/customer/nested/{hotelId}")
     public List<CategoryMenuDTO> getNestedMenu(@PathVariable Long hotelId) {
+
         return menuService.getHotelMenuNested(hotelId);
     }
 
